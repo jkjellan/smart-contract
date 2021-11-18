@@ -1,14 +1,14 @@
 pragma solidity ^0.5.0;
 
-import "./DappToken.sol";
+import "./LimuCoin.sol";
 import "./DaiToken.sol";
 
-contract TokenFarm {
+contract CoinBank {
     // contract code here
-    string public name = "Dapp Token Farm";
+    string public name = "BANK OF LIMU";
     
     address public owner;
-    DappToken public dappToken;
+    LimuCoin public limuCoin;
     DaiToken public daiToken;
 
     address[] public stakers;
@@ -17,8 +17,8 @@ contract TokenFarm {
     mapping(address => bool) public isStaking;
 
     // runs once and only once when the smart contract is deployed to the network
-    constructor(DappToken _dappToken, DaiToken _daiToken) public {
-        dappToken = _dappToken;
+    constructor(LimuCoin _limuCoin, DaiToken _daiToken) public {
+        limuCoin = _limuCoin;
         daiToken = _daiToken;
         owner = msg.sender;
     }
@@ -70,7 +70,7 @@ contract TokenFarm {
             address recipient = stakers[i];
             uint balance = stakingBalance[recipient];
             if(balance > 0) {
-                dappToken.transfer(recipient, balance);
+                limuCoin.transfer(recipient, balance);
             }
         }
     }

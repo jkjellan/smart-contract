@@ -4,8 +4,8 @@ import Main from './Main'
 import './App.css'
 import Web3 from 'web3'
 import DaiToken from '../abis/DaiToken.json'
-import DappToken from '../abis/DappToken.json'
-import TokenFarm from '../abis/TokenFarm.json'
+import LimuCoin from '../abis/LimuCoin.json'
+import CoinBank from '../abis/CoinBank.json'
 
 class App extends Component {
 
@@ -37,32 +37,32 @@ class App extends Component {
       window.alert('DaiToken contract not deployed to detected network')
     }
 
-    // Load DappToken
-    const dappTokenData = DappToken.networks[networkId]
-    if(dappTokenData) {
+    // Load LimuCoin
+    const limuCoinData = LimuCoin.networks[networkId]
+    if(limuCoinData) {
       // create javascript version of daiToken contract using web3
-      const dappToken = new web3.eth.Contract(DappToken.abi, dappTokenData.address)
-      this.setState({dappToken})
-      console.log({dappToken})
-      let dappTokenBalance = await dappToken.methods.balanceOf(this.state.account).call()
-      this.setState({dappTokenBalance: dappTokenBalance.toString()})
-      console.log({dappTokenBalance})
+      const limuCoin = new web3.eth.Contract(LimuCoin.abi, limuCoinData.address)
+      this.setState({limuCoin})
+      console.log({limuCoin})
+      let limuCoinBalance = await limuCoin.methods.balanceOf(this.state.account).call()
+      this.setState({limuCoinBalance: limuCoinBalance.toString()})
+      console.log({limuCoinBalance})
     } else {
-      window.alert('DappToken contract not deployed to detected network')
+      window.alert('limuCoin contract not deployed to detected network')
     }
 
-    // Load TokenFarm
-    const tokenFarmData = TokenFarm.networks[networkId]
-    if(tokenFarmData) {
+    // Load CoinBank
+    const coinBankData = CoinBank.networks[networkId]
+    if(coinBankData) {
       // create javascript version of daiToken contract using web3
-      const tokenFarm = new web3.eth.Contract(TokenFarm.abi, tokenFarmData.address)
-      this.setState({tokenFarm})
-      console.log({tokenFarm})
-      let stakingBalance = await tokenFarm.methods.stakingBalance(this.state.account).call()
+      const coinBank = new web3.eth.Contract(CoinBank.abi, coinBankData.address)
+      this.setState({coinBank})
+      console.log({coinBank})
+      let stakingBalance = await coinBank.methods.stakingBalance(this.state.account).call()
       this.setState({stakingBalance: stakingBalance.toString()})
       console.log({stakingBalance})
     } else {
-      window.alert('TokenFarm contract not deployed to detected network')
+      window.alert('CoinBank contract not deployed to detected network')
     }
 
     this.setState({loading: false})
@@ -83,8 +83,8 @@ class App extends Component {
 
   stakeTokens = (amount) => {
     this.setState({ loading: true })
-    this.state.daiToken.methods.approve(this.state.tokenFarm._address, amount).send({ from: this.state.account }).on('transactionHash', (hash) => {
-      this.state.tokenFarm.methods.stakeTokens(amount).send({ from: this.state.account }).on('transactionHash', (hash) => {
+    this.state.daiToken.methods.approve(this.state.coinBank._address, amount).send({ from: this.state.account }).on('transactionHash', (hash) => {
+      this.state.coinBank.methods.stakeTokens(amount).send({ from: this.state.account }).on('transactionHash', (hash) => {
         this.setState({ loading: false })
       })
     })
@@ -92,7 +92,7 @@ class App extends Component {
 
   unstakeTokens = (amount) => {
     this.setState({ loading: true })
-    this.state.tokenFarm.methods.unstakeTokens().send({ from: this.state.account }).on('transactionHash', (hash) => {
+    this.state.coinBank.methods.unstakeTokens().send({ from: this.state.account }).on('transactionHash', (hash) => {
       this.setState({ loading: false })
     })
   }
@@ -102,10 +102,10 @@ class App extends Component {
     this.state = {
       account: '0x0',
       daiToken: {},
-      dappToken: {},
-      tokenFarm: {},
+      limuCoin: {},
+      coinBank: {},
       daiTokenBalance: '0',
-      dappTokenBalance: '0',
+      limuCoinBalance: '0',
       stakingBalance: '0',
       loading: true
     }
@@ -118,7 +118,7 @@ class App extends Component {
     } else {
       content = <Main
         daiTokenBalance={this.state.daiTokenBalance}
-        dappTokenBalance={this.state.dappTokenBalance}
+        limuCoinBalance={this.state.limuCoinBalance}
         stakingBalance={this.state.stakingBalance}
         stakeTokens={this.stakeTokens}
         unstakeTokens={this.unstakeTokens}

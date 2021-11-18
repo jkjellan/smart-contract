@@ -4,21 +4,21 @@ import dai from '../dai.png'
 class Main extends Component {
 
   render() {
-    const {stakingBalance, daiTokenBalance, dappTokenBalance, stakeTokens, unstakeTokens } = this.props;
+    const {stakingBalance, daiTokenBalance, limuCoinBalance, stakeTokens, unstakeTokens } = this.props;
 
     return (
     <div id="content" className="mt-3">
         <table className="table table-borderless text-muted text-center">
         <thead>
             <tr>
-            <th scope="col">Staking Balance</th>
+            <th scope="col">Deposit Balance</th>
             <th scope="col">Reward Balance</th>
             </tr>
         </thead>
         <tbody>
             <tr>
             <td>{window.web3.utils.fromWei(stakingBalance, 'Ether')} mDAI</td>
-            <td>{window.web3.utils.fromWei(dappTokenBalance, 'Ether')} DAPP</td>
+            <td>{window.web3.utils.fromWei(limuCoinBalance, 'Ether')} LIMU</td>
             </tr>
         </tbody>
         </table>
@@ -34,7 +34,7 @@ class Main extends Component {
             stakeTokens(amount)
             }}>
             <div>
-            <label className="float-left"><b>Stake Tokens</b></label>
+            <label className="float-left"><b>Deposit Dai</b></label>
             <span className="float-right text-muted">
                 Balance: {window.web3.utils.fromWei(daiTokenBalance, 'Ether')}
             </span>
@@ -53,7 +53,7 @@ class Main extends Component {
                 </div>
             </div>
             </div>
-            <button type="submit" className="btn btn-primary btn-block btn-lg">STAKE!</button>
+            <button type="submit" className="btn btn-primary btn-block btn-lg">Deposit DAI</button>
         </form>
         <button
             type="submit"
@@ -62,7 +62,7 @@ class Main extends Component {
             event.preventDefault()
             unstakeTokens()
             }}>
-            UN-STAKE...
+            Withdraw DAI
             </button>
         </div>
         </div>

@@ -1,20 +1,20 @@
 // puts new smart contracts on the blockchain. The blockchain state updates because you created a new "transaction" on the chain.
 // you can think of it like migrating a database, in the sense that a blockchain is a database.
-const DappToken = artifacts.require('DappToken');
+const LimuCoin = artifacts.require('LimuCoin');
 const DaiToken = artifacts.require('DaiToken');
-const TokenFarm = artifacts.require('TokenFarm');
+const CoinBank = artifacts.require('CoinBank');
 
 module.exports = async function(deployer, network, accounts) {
   await deployer.deploy(DaiToken)
   const daiToken = await DaiToken.deployed()
 
-  await deployer.deploy(DappToken)
-  const dappToken = await DappToken.deployed()
+  await deployer.deploy(LimuCoin)
+  const limuCoin = await LimuCoin.deployed()
   
-  await deployer.deploy(TokenFarm, dappToken.address, daiToken.address)
-  const tokenFarm = await TokenFarm.deployed()
+  await deployer.deploy(CoinBank, limuCoin.address, daiToken.address)
+  const coinBank = await CoinBank.deployed()
 
-  await dappToken.transfer(tokenFarm.address, '1000000000000000000000000')
+  await limuCoin.transfer(coinBank.address, '1000000000000000000000000')
 
   await daiToken.transfer(accounts[1], '100000000000000000000')
   await daiToken.transfer(accounts[2], '1000000000000000000000')
